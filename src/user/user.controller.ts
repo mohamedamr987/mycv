@@ -10,8 +10,10 @@ import {
 } from '@nestjs/common';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
+import { UserDto } from './dto/user.dto';
+import { Serialize } from '../interceptors/serialize.interceptor';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('user')
 export class UserController {
@@ -25,6 +27,7 @@ export class UserController {
     );
   }
 
+  @Serialize(UserDto)
   @Get('/:id')
   async findOne(@Param('id') id: string) {
     return await this.userService.findOne(parseInt(id));
